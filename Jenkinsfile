@@ -5,17 +5,7 @@ pipeline {
         maven 'maven'
     }
 
-    environment {
-        IMAGE_NAME = "jenkins-demo"
-    }
-
     stages {
-
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/chilukamari25/Jenkins25.git'
-            }
-        }
 
         stage('Build Maven Project') {
             steps {
@@ -25,16 +15,14 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh 'docker build -t jenkins-demo .'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yaml'
+                sh 'kubectl apply -f k8s/'
             }
         }
-
     }
 }
